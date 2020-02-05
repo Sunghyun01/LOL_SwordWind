@@ -23,4 +23,18 @@ class Damage extends Model
 	public function setUpdatedAt($value) {
 		$this->attributes['edit_time'] = \Carbon\Carbon::now()->timestamp;
 	}
+
+    public function resolveRouteBinding($value){
+        $gubun = request()->route()->parameter('gubun');
+        if(!$gubun) abort(404);
+	    $data = $this
+            ->where('champion_id',$value)
+            ->where('gubun',$gubun)
+            ->first();
+        if($data) return $data;
+        $result = new self();
+        $result->champion_id = $value;
+        $result->gubun = $gubun;
+        return $result;
+	}
 }

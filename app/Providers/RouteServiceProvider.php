@@ -32,7 +32,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        Route::model('user', App\Model\Damage::class);
+        Route::model('damage', \App\Model\Damage::class);
+        Route::model('champion', \App\Model\Champion::class);
     }
 
     /**
@@ -46,7 +47,16 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapBotRoutes();
+
         //
+    }
+
+    protected function mapBotRoutes()
+    {
+        Route::prefix('bot')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/bot.php'));
     }
 
     /**
